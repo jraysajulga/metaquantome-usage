@@ -40,24 +40,27 @@ write_mqome_inputs('T7', full_go_cpm, 'id', 'id', 'T7A', 'T7B', 'T7C')
 
 ```{r}
 print_mqome_cmds <- function(name, func_colname){
+  id <- 'id'
   cmd_expand <- paste0("metaquantome expand --mode f --data_dir data/go_db/",
                         " --int_file data/inputs/", name, "_int.tab",
-                       " --pep_colname_int id",
+                       " --pep_colname_int ", id,
                        " --func_file data/inputs/", name, "_func.tab",
-                       " --pep_colname_func id",
+                       " --pep_colname_func ", id,
                        " --func_colname ", func_colname," --ontology go",
-                       " --samps data/inputs/samples.tab",
+                       " --samps data/inputs/samples_", name, ".tab",
                        " --outfile data/outputs/", name, "_func_expanded.tab")
   cmd_filt <- paste0("metaquantome filter",
                      " --expand_file data/outputs/", name, "_func_expanded.tab",
                      " --mode f --ontology go",
-                     " --samps data/inputs/samples.tab",
+                     " --samps data/inputs/samples_", name, ".tab",
                      " --min_peptides 2 --min_pep_nsamp 0 --min_children_non_leaf 2 --min_child_nsamp 1",
                      " --qthreshold 0 --outfile data/outputs/", name, "_func_filtered.tab")
-  return(paste(cmd_expand, cmd_filt, sep='; '))
+  return(paste(cmd_expand, 
+               #cmd_filt, 
+               sep='; '))
 }
-paste(print_mqome_cmds("T4", 'gos'),
-      print_mqome_cmds("T7", 'gos'), collapse = "; ")
+print_mqome_cmds("T4", 'gos')
+print_mqome_cmds("T7", 'gos')
 ```
 
 
