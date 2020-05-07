@@ -94,22 +94,50 @@ full_go_cpm
 ```{r}
 t4_expanded
 ```
+
+```{r}
+t7_expanded
+```
+
+
 ```{r}
 t4_filtered
 ```
-
 
 ## Filtering to only nodes or only ancestors
 
 ```{r}
 filter_to_nodes <- function(df){
-  df[is.na(df['countWS_n_samp_children']) &
-     is.na(df['countNS_n_samp_children']),]
+  colnames <- names(df)
+  df[is.na(df[colnames[grepl('n_samp_children', colnames)]]),] %>% filter(!is.na(gos))
 }
 filter_to_ancestors <-function(df){
-  df[!is.na(df['countWS_n_samp_children']) &
-     !is.na(df['countNS_n_samp_children']),]
+  colnames <- names(df)
+  df[!is.na(df[colnames[grepl('n_samp_children', colnames)]]),] %>% filter(!is.na(gos))
 }
+t4_filtered_nodes <- filter_to_nodes(t4_filtered)
+t4_expanded_nodes <- filter_to_nodes(t4_expanded)
+t4_filtered_ancestors <- filter_to_ancestors(t4_filtered)
+t4_expanded_ancestors <- filter_to_ancestors(t4_expanded)
+t7_filtered_nodes <- filter_to_nodes(t7_filtered)
+t7_expanded_nodes <- filter_to_nodes(t7_expanded)
+t7_filtered_ancestors <- filter_to_ancestors(t7_filtered)
+t7_expanded_ancestors <- filter_to_ancestors(t7_expanded)
+```
 
+```{r}
+t4_expanded
+```
+
+```{r}
+t4_expanded_nodes
+```
+
+```{r}
+t7_expanded
+```
+
+```{r}
+t7_expanded_nodes
 ```
 
