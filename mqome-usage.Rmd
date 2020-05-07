@@ -92,8 +92,8 @@ import_mqome_output <- function(name, type){
 }
 t_expanded <- import_mqome_output('T', 'expanded')
 t_filtered <- import_mqome_output('T', 'filtered')
-t_expanded
-t_filtered
+t_expanded %>% arrange(-T7A_n_peptide)
+t_filtered %>% arrange(-T7A_n_peptide)
 ```
 For reference, here's the original dataset:
 ```{r}
@@ -122,8 +122,37 @@ t_filtered_nodes
 t_expanded_nodes
 ```
 
+# In summary
+
+Let's join all the dataframes with one another
+
 ```{r}
-t_filtered_ancestors
-t_expanded_ancestors
+full_go_cpm
 ```
+
+```{r}
+library(tidyverse)
+all_dfs <- list(t_expanded %>% arrange(-T7A_n_peptide)
+                           %>% select(gos, name, 'T4_expanded' = T4_mean,
+                                                 'T7_expanded' = T7_mean),
+                t_filtered %>% select(gos, name, 'T4_filtered' = T4_mean,
+                                                 'T7_filtered' = T7_mean),
+                full_go_cpm %>% select(gos = id, name, 'T4_original' = T4_mean,
+                                                 'T7_original' = T7_mean),
+                t_expanded_nodes %>% select(gos, name, 'T4_expanded_nodes' = T4_mean,
+                                                       'T7_expanded_nodes' = T7_mean),
+                t_filtered_nodes %>% select(gos, name, 'T4_filtered_nodes' = T4_mean,
+                                                       'T7_filtered_nodes' = T7_mean),
+                t_expanded_ancestors %>% select(gos, name, 'T4_expanded_ancestors' = T4_mean,
+                                                           'T7_expanded_ancestors' = T7_mean),
+                t_filtered_ancestors %>% select(gos, name, 'T4_filtered_ancestors' = T4_mean,
+                                                           'T7_filtered_ancestors' = T7_mean))
+joined_dfs <- all_dfs %>% reduce(full_join, by=c("gos", "name"))
+joined_dfs
+write.table(joined_dfs,
+              file=paste0("data/outputs/joined_table.tab"),
+              quote=FALSE, row.names=FALSE, sep="\t")
+```
+
+
 
