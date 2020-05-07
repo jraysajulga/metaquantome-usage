@@ -2,6 +2,11 @@
 
 This repository is dedicated to exploring metaQuantome's expanding and filtering modules in the context of navigating GO hierarchies (without peptides).
 
+## Requirements
+
+- [RStudio](https://rstudio.com/products/rstudio/download/) (v1.2 or greater)
+- [metaQuantome](https://github.com/galaxyproteomics/metaquantome) (v1.0.0 or greater)
+
 ## Altering and testing the metaQuantome package
 To alter and test a local instance of metaQuantome:
 
@@ -12,4 +17,4 @@ To alter and test a local instance of metaQuantome:
 
 ## Testing Expansion and Filtering
 
-Test the functionality of metaQuantome through the R markdown notebook provided in this repo (mqome-usage.Rmd).
+Test the functionality of metaQuantome through the R markdown notebook provided in this repo (mqome-usage.Rmd). Use RStudio to run through the code.
