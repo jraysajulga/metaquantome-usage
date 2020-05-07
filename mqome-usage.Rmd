@@ -8,6 +8,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
+library(tidyr)
 library(dplyr)
 ```
 
@@ -75,17 +76,26 @@ paste(print_mqome_cmds("T4", 'gos'),
 ## Importing Expanded and Filtered Files
 
 ```{r}
-import_mqome_output <- function(name, type, folder="full"){
-  read.delim(paste0("results/mqome/output/", folder, "/", name, "/", name, "_func_", type, ".tab"),
+import_mqome_output <- function(name, type){
+  read.delim(paste0("data/outputs/", name, "_func_", type, ".tab"),
              stringsAsFactors = FALSE) %>%
-    rename(gos = id) %>%
-    mutate(
-      countWS = replace_na(countWS, 0),
-      countNS = replace_na(countNS, 0),
-      log2ratio = log2((countWS + 1)/(countNS + 1))) %>%
-    arrange(-log2ratio)
+    rename(gos = id)
 }
-eggnog_expanded <- import_mqome_output('eggnog', 'expanded')
+t4_expanded <- import_mqome_output('T4', 'expanded')
+t4_filtered <- import_mqome_output('T4', 'filtered')
+t7_expanded <- import_mqome_output('T7', 'expanded')
+t7_filtered <- import_mqome_output('T7', 'filtered')
+```
+
+```{r}
+full_go_cpm
+```
+
+```{r}
+t4_expanded
+```
+```{r}
+t4_filtered
 ```
 
 
